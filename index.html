@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>从零练字 · 中文与英文手写分步教程</title>
+<meta name="description" content="从零开始，一步步把中文和英文写漂亮：控笔、笔画、偏旁、结构、临帖、篇章，附笔顺演示与可打印字帖。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Edu+SA+Beginner:wght@400..700&family=Playwrite+US+Trad:wght@100..400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css?v=3">
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <span class="seal" aria-hidden="true">练字</span>
+    <h1>从零开始，把字写漂亮</h1>
+    <p class="lead">字写不好不是天赋问题，而是没人告诉你<strong>先练什么、后练什么、怎么才算练对</strong>。这里把中文和英文各拆成 7 个阶段，每天 30 分钟，照着每日任务表走就行。</p>
+    <nav class="hero-nav">
+      <a class="btn primary" href="#path">开始练习</a>
+      <a class="btn" href="#plan">每日任务表</a>
+      <a class="btn" href="#structure">结构详解</a>
+      <a class="btn" href="#tools">生成字帖</a>
+    </nav>
+  </div>
+</header>
+
+<nav id="topnav" aria-label="栏目"><div class="wrap">
+  <a href="#home">入门</a><a href="#path">分步路线</a><a href="#plan">每日任务</a><a href="#structure">结构详解</a><a href="#tips">书写口诀</a><a href="#tools">练习工具</a><a href="#sources">参考资料</a>
+</div></nav>
+
+<main class="wrap">
+
+<section id="principles">
+  <h2>先记住六条原则</h2>
+  <p class="sub">这六条比任何字帖都重要。练了很久没进步，几乎都是违反了其中一条。</p>
+  <ol class="cards">
+    <li><h3>慢</h3><p>练字时的速度应是平时的三分之一。写快了，手只会重复旧习惯。</p></li>
+    <li><h3>少而精</h3><p>一天精练 5–8 个字，胜过抄 500 个字。每个字写 5–8 遍就够。</p></li>
+    <li><h3>先看后写</h3><p>下笔前先“读帖”：起笔在格子哪里？多长？多斜？看清了再写。</p></li>
+    <li><h3>对比纠错</h3><p>每写一遍就和范字比，找出<em>最不像的一处</em>，下一遍只改这一处。</p></li>
+    <li><h3>短而每天</h3><p>每天 30 分钟比周末突击 3 小时有效得多，肌肉记忆靠频率。</p></li>
+    <li><h3>留底对比</h3><p>第一天抄一段话存起来，之后每周同一段再抄一次。进步看得见才坚持得住。</p></li>
+  </ol>
+</section>
+
+<section id="prep">
+  <h2>准备工作（中英文通用）</h2>
+  <div class="prep-grid">
+    <article>
+      <h3>工具</h3>
+      <ul>
+        <li><strong>笔</strong>：0.5mm 中性笔即可，出墨顺滑、笔杆稍粗的更不累手。别用太细太滑的圆珠笔。</li>
+        <li><strong>纸</strong>：中文用田字格或米字格本；英文用四线格本。纸下垫几张纸或软垫，笔画才有弹性。</li>
+        <li><strong>字帖</strong>：选一本规范楷书硬笔字帖，<em>一本练到底</em>，不要频繁换。</li>
+      </ul>
+    </article>
+    <article>
+      <h3>坐姿</h3>
+      <ul>
+        <li>背挺直、肩放松，双脚平放；眼睛离纸约一尺。</li>
+        <li>纸可以略向左倾斜（右手书写），找到手腕最舒服的角度。</li>
+        <li>非执笔手按住纸，随着书写把纸往上推，而不是手往下够。</li>
+      </ul>
+    </article>
+    <article>
+      <h3>握笔</h3>
+      <ul>
+        <li>拇指、食指指肚捏住笔杆，中指第一关节从下方托住——三指握笔。</li>
+        <li>指尖离笔尖约 2–3 厘米，笔杆靠在食指根部附近，与纸面约 45°–60°。</li>
+        <li><strong>放松</strong>：指尖发白说明握得太紧。能被别人轻松抽走笔才是对的力度。</li>
+      </ul>
+    </article>
+  </div>
+</section>
+
+<section id="path">
+  <h2>分步路线</h2>
+  <p class="sub">选择一条路线。完成一个阶段就打勾，进度会保存在本机浏览器里。</p>
+  <div class="tabs" role="tablist">
+    <button role="tab" id="tab-zh" aria-selected="true" aria-controls="panel-zh">中文 · 硬笔楷书</button>
+    <button role="tab" id="tab-en" aria-selected="false" aria-controls="panel-en">English · Handwriting</button>
+  </div>
+  <div class="progress"><div class="bar"><i id="progress-fill"></i></div><span id="progress-text"></span></div>
+
+  <div id="panel-zh" role="tabpanel" aria-labelledby="tab-zh" class="stages"></div>
+  <div id="panel-en" role="tabpanel" aria-labelledby="tab-en" class="stages" hidden></div>
+</section>
+
+<section id="structure">
+  <h2>结构详解：每种结构怎么写</h2>
+  <p class="sub">汉字按部件的摆放方式分成八类。每一类都有固定的比例规律，记住规律，没练过的字也能写对。色块示意各部件大致占多大位置，点例字可以看笔顺并跟写。</p>
+  <div id="structure-list"></div>
+</section>
+
+<section id="tips">
+  <h2>书写口诀：通用的小技巧</h2>
+  <p class="sub">不分结构、写任何字都用得上。每次练字挑一条，专门盯着它写。 <button type="button" class="btn sm" data-print-box>打印全部例字字帖</button></p>
+  <div id="tips-list"></div>
+</section>
+
+<section id="plan">
+  <h2>每天练什么：逐日任务表</h2>
+  <p class="sub">每天一次，标准时长 30 分钟。一周练 6 天新内容，第 7 天复习。每一天都写明热身、任务、应用三段做什么，以及当天要打印哪一张练习纸。做完打勾，进度保存在本机浏览器。</p>
+  <details class="fold"><summary>30 分钟怎么分配；时间不够 / 想快一点 / 没过关怎么办</summary>
+  <ol class="timeline">
+    <li><b>5 分钟</b><div><h3>热身</h3><p>当周指定的控笔线条。把手放松、把速度降下来。</p></div></li>
+    <li><b>20 分钟</b><div><h3>当天任务</h3><p>下表里的内容。练字时每个字：读帖 → 写 → 对比 → 改一处 → 再写，5–8 遍。</p></div></li>
+    <li><b>5 分钟</b><div><h3>应用</h3><p>用当天练的字或笔画抄一句话（10–20 字），不看范字，写完再对照。</p></div></li>
+  </ol>
+  <ul class="notes">
+    <li><strong>时间不够</strong>：保底 15 分钟（热身 3 + 任务 10 + 应用 2），当天任务里的字减半。宁可少练，不要断。</li>
+    <li><strong>想快一点</strong>：每天两次、每次 30 分钟（早晚各一次），第二次重复同一天的任务，而不是往后赶进度。单次不要超过 45 分钟，手累了动作会变形。</li>
+    <li><strong>没过关</strong>：对照上面各阶段的“过关标准”，没达到就把这一周再练一遍，不要硬往下走。</li>
+  </ul>
+  </details>
+  <div class="tabs small" role="tablist">
+    <button role="tab" id="ptab-zh" aria-selected="true">中文 · 12 周</button>
+    <button role="tab" id="ptab-en" aria-selected="false">English · 6 周</button>
+  </div>
+  <div id="weeks" class="weeks"></div>
+  <div id="week-body"></div>
+  <details id="plan-all" class="fold"></details>
+</section>
+
+<section id="tools">
+  <h2>练习工具</h2>
+
+  <div class="tool">
+    <h3>控笔 / 线条练习纸</h3>
+    <p>带示范、描红和空格的练习纸。点“打印”后，在打印对话框里选打印机，或选“存储为 PDF”保存下来。</p>
+    <div class="row">
+      <select id="drill-set" aria-label="练习纸类型"><option value="zh">中文控笔（13 项，约 5 页）</option><option value="en">英文线条（6 项，约 2 页）</option></select>
+      <button class="btn primary" id="drill-print" type="button">打印 / 存为 PDF</button>
+    </div>
+    <div id="drill-preview" class="sheet preview"></div>
+  </div>
+
+  <div class="tool">
+    <h3>汉字笔顺演示与跟写</h3>
+    <p>输入任意汉字，看标准笔顺动画，再用鼠标或手指跟写一遍。</p>
+    <form id="lookup" class="row">
+      <input id="lookup-input" type="text" maxlength="8" value="永" aria-label="要查看笔顺的汉字">
+      <button class="btn primary" type="submit">看笔顺</button>
+    </form>
+  </div>
+
+  <div class="tool">
+    <h3>中文字帖生成器</h3>
+    <p>输入要练的字，生成带范字和描红的格子，可直接打印。</p>
+    <div class="row">
+      <input id="zh-text" type="text" value="永一十人大中国明春意" aria-label="要练习的汉字">
+      <select id="zh-grid" aria-label="格子类型"><option value="mi">米字格</option><option value="tian">田字格</option></select>
+      <select id="zh-trace" aria-label="描红个数"><option value="3">描红 3 个</option><option value="5">描红 5 个</option><option value="0">不描红</option></select>
+      <button class="btn" id="zh-print" type="button">打印</button>
+    </div>
+    <div id="zh-sheet" class="sheet"></div>
+  </div>
+
+  <div class="tool">
+    <h3>英文四线格字帖生成器</h3>
+    <p>每行文字会生成一行描红，后面跟空白行自己写。</p>
+    <div class="row">
+      <textarea id="en-text" rows="3" aria-label="要练习的英文">Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm
+minimum and the with from
+The quick brown fox jumps over the lazy dog.</textarea>
+      <div class="col">
+        <select id="en-font" aria-label="字体"><option value="print">印刷体手写</option><option value="cursive">连笔圆体</option></select>
+        <select id="en-blank" aria-label="空白行数"><option value="1">每行后空 1 行</option><option value="2">每行后空 2 行</option></select>
+        <button class="btn" id="en-print" type="button">打印</button>
+      </div>
+    </div>
+    <div id="en-sheet" class="sheet"></div>
+  </div>
+</section>
+
+<section id="sources">
+  <h2>参考资料</h2>
+  <ul class="sources">
+    <li><a href="https://www.tckpublishing.com/7-steps-to-improve-your-handwriting/" target="_blank" rel="noopener">7 Steps to Improve Your Handwriting — TCK Publishing</a>（握笔、转纸、用手臂带动、一致性）</li>
+    <li><a href="https://madegooddesigns.com/how-to-improve-handwriting/" target="_blank" rel="noopener">How to Improve Your Handwriting — Made Good Designs</a>（热身线条、按形状分组练字母、斜度）</li>
+    <li><a href="https://bastionboltactionpen.com/blogs/news/how-adults-can-improve-handwriting" target="_blank" rel="noopener">How Adults Can Improve Handwriting</a>（成年人练习节奏：每天 10–15 分钟、一次只盯一个问题）</li>
+    <li><a href="https://apps.apple.com/cn/app/id6748303352" target="_blank" rel="noopener">「一手好字」课程介绍</a>（控笔 → 笔画 → 结构的顺序；重心平稳、中宫紧凑、主笔突出）</li>
+    <li><a href="https://www.bilibili.com/video/av546031143/" target="_blank" rel="noopener">吴玉生行楷 50 课视频目录 — 哔哩哔哩</a>（主笔突出、中直对正、竖笔等距等结构讲法）</li>
+    <li><a href="https://mandarinmosaic.com/blog/handwriting-in-chinese" target="_blank" rel="noopener">Handwriting in Chinese: A Practical Guide</a>（慢写与日常速度脱节的问题）</li>
+    <li><a href="https://m.sohu.com/a/309552710_500680/" target="_blank" rel="noopener">楷书结构 30 法 — 搜狐</a>（左小上提、右小下落、空档均匀、捺不重复、无画包竖有画包横等口诀）</li>
+    <li><a href="https://www.sohu.com/a/288738219_100187966" target="_blank" rel="noopener">书法结构的秘诀 — 搜狐</a>（独体、上下、左右、全包围、各类半包围的写法）</li>
+    <li><a href="https://k.sina.cn/article_5972948369_16403f59102000fium.html" target="_blank" rel="noopener">楷书合体字的六大结构 — 新浪</a>（各结构的宽窄、大小比例搭配）</li>
+    <li><a href="https://zhuanlan.zhihu.com/p/265633598" target="_blank" rel="noopener">如何提高控笔能力 — 知乎</a>（长短线分别用手腕和手臂、线条平行等距）</li>
+    <li><a href="https://www.sina.cn/news/detail/5314352666118303.html" target="_blank" rel="noopener">为什么先练控笔 — 新浪</a>（直线、弧线、提按训练；每天约 15 分钟）</li>
+    <li><a href="https://m.liupinshuyuan.com/news/524.html" target="_blank" rel="noopener">成年人 30 天练字计划 — 六品书院</a>（先留底、笔画 → 结构 → 偏旁与高频字的阶段安排）</li>
+    <li><a href="https://zhuanlan.zhihu.com/p/526960422" target="_blank" rel="noopener">成人练字最常见的十个问题 — 知乎</a>（每天练习时长）</li>
+    <li><a href="https://hanziwriter.org/" target="_blank" rel="noopener">Hanzi Writer</a>（本页笔顺动画与跟写所用的开源库，MIT 许可）</li>
+  </ul>
+</section>
+
+</main>
+
+<footer><div class="wrap">每天半小时，三个月后回头看第一天的字。</div></footer>
+
+<div id="print-area" aria-hidden="true"></div>
+
+<dialog id="hz-dialog" aria-labelledby="hz-title">
+  <h3 id="hz-title">笔顺演示</h3>
+  <svg id="hz-svg" xmlns="http://www.w3.org/2000/svg" width="280" height="280" viewBox="0 0 280 280">
+    <rect x="1" y="1" width="278" height="278" fill="#fffdf8" stroke="#c0392b" stroke-width="2"/>
+    <g stroke="#e3b9b1" stroke-dasharray="5 5">
+      <line x1="0" y1="0" x2="280" y2="280"/><line x1="280" y1="0" x2="0" y2="280"/>
+      <line x1="140" y1="0" x2="140" y2="280"/><line x1="0" y1="140" x2="280" y2="140"/>
+    </g>
+  </svg>
+  <p id="hz-msg" role="status">&nbsp;</p>
+  <div class="row center">
+    <button class="btn" id="hz-play" type="button">重播笔顺</button>
+    <button class="btn primary" id="hz-quiz" type="button">跟写一遍</button>
+    <button class="btn" id="hz-close" type="button">关闭</button>
+  </div>
+</dialog>
+
+<script src="https://cdn.jsdelivr.net/npm/hanzi-writer@3.5/dist/hanzi-writer.min.js"></script>
+<script src="data.js?v=3"></script>
+<script src="app.js?v=3"></script>
+</body>
+</html>
