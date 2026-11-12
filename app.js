@@ -529,21 +529,52 @@
   function sheetHead(title, hint) { return '<header class="phead"><h1>' + esc(title) + '</h1><p>' + hint + '</p><span>日期 ________　用时 ____ 分钟</span></header>'; }
   function drillSheet(which) {
     var set = DRILL_SETS[which];
-    return sheetHead(set.title, '每组第一行是示范，第二行照着描，后两行自己写。慢、匀速、等距。') + set.items.map(function (it) { return drillBlock(it); }).join('');
+    return pday(which, '', sheetHead(set.title, '每组第一行是示范，第二行照着描，后两行自己写。慢、匀速、等距。') + set.items.map(function (it) { return drillBlock(it); }).join(''));
   }
   function charSheet(title, chars) {
-    return sheetHead(title + ' · 字帖', '每行：范字 → 描 3 遍 → 自己写。先读帖再下笔，每写一遍对比一次。') + chars.map(function (c) {
+    return pday('zh', chars.join(''), sheetHead(title + ' · 字帖', '每行：范字 → 描 3 遍 → 自己写。先读帖再下笔，每写一遍对比一次。') + chars.map(function (c) {
       return '<div class="zh-row">' + range(10, function (i) { return '<div class="cell mi' + (i ? ' trace' : '') + '">' + (i <= 3 ? '<span>' + c + '</span>' : '') + '</div>'; }) + '</div>';
-    }).join('');
+    }).join(''));
   }
   function lineSheet(title, lines) {
-    return sheetHead(title + ' · Worksheet', '每行先描一遍，再在下面两行空格里自己写。注意大小、斜度、间距、基线四个一致。') + lines.map(function (l) {
+    return pday('en', '', sheetHead(title + ' · Worksheet', '每行先描一遍，再在下面两行空格里自己写。注意大小、斜度、间距、基线四个一致。') + lines.map(function (l) {
       return '<div class="pline">' + fourLine(l, { trace: true }) + fourLine('') + fourLine('') + '</div>';
-    }).join('');
+    }).join(''));
+  }
+  function pday(track, chars, body) { return '<div class="pday" data-track="' + track + '" data-chars="' + chars + '">' + body + '</div>'; }
+  /* 把每张练习纸的最后一页用加练行补满，不浪费纸。按 A4、页边距 10mm 估算分页。 */
+  var MM = 96 / 25.4, PAGE_H = (297 - 20 - 6) * MM;
+  function sheetEnd(sheet) {
+    var top = sheet.getBoundingClientRect().top, shift = 0, end = 0;
+    sheet.querySelectorAll('.phead, .pt, .pblock, .zh-row, .pline, .hlines > div').forEach(function (el) {
+      var r = el.getBoundingClientRect(), a = r.top - top + shift, b = a + r.height;
+      if (r.height < PAGE_H && Math.floor(a / PAGE_H) !== Math.floor((b - 1) / PAGE_H)) { var push = (Math.floor(a / PAGE_H) + 1) * PAGE_H - a; shift += push; b += push; }
+      end = Math.max(end, b);
+    });
+    return end;
+  }
+  function fillSheet(sheet) {
+    var zh = sheet.dataset.track === 'zh', chars = Array.from(sheet.dataset.chars || ''), pages = Math.ceil(sheetEnd(sheet) / PAGE_H), n = 0;
+    var box = document.createElement('div'); box.className = 'psec pfill';
+    box.innerHTML = '<p class="pt"><b>加练区</b>' + (zh ? (chars.length ? '每行第一格是浅色范字，照着再写一行；' : '') + '把今天最不满意的线条或字重写几行。' : '把今天最不满意的字母或单词再写几行。') + '</p>';
+    sheet.appendChild(box);
+    for (var i = 0; i < 40; i++) {
+      var row = document.createElement('div');
+      if (zh) { row.className = 'zh-row'; row.innerHTML = range(10, function (k) { return '<div class="cell mi trace">' + (k === 0 && chars.length ? '<span>' + chars[i % chars.length] + '</span>' : '') + '</div>'; }); }
+      else { row.className = 'pline'; row.innerHTML = fourLine(''); }
+      box.appendChild(row);
+      if (Math.ceil(sheetEnd(sheet) / PAGE_H) > pages) { box.removeChild(row); break; }
+      n++;
+    }
+    if (!n) sheet.removeChild(box);
   }
   function printArea(html) {
     var area = $('#print-area');
-    area.innerHTML = html; document.body.classList.add('print-area');
+    area.innerHTML = html;
+    area.style.cssText = 'display:block;position:absolute;left:-9999px;top:0;width:190mm';
+    area.querySelectorAll('.pday').forEach(fillSheet);
+    area.style.cssText = '';
+    document.body.classList.add('print-area');
     var done = function () { document.body.classList.remove('print-area'); window.removeEventListener('afterprint', done); };
     window.addEventListener('afterprint', done);
     window.print();
@@ -598,10 +629,15 @@
   function daySheet(track, w, i) {
     var d = dayInfo(track, w, i);
     var sec = function (t, txt, body) { return '<div class="psec"><p class="pt"><b>' + t + '</b>' + esc(txt) + '</p>' + body + '</div>'; };
-    return '<div class="pday">' + sheetHead((track === 'zh' ? '中文' : 'English') + ' · 第 ' + d.n + ' 天 · ' + d.wk.t, '第 ' + (w + 1) + ' 周第 ' + (i + 1) + ' 天。三段共 30 分钟，写完在右边记下日期和用时。') +
-      sec('① 热身 · 5 分钟', d.wk.warm, specHtml(d.warm, track, true)) + sec('② 当天任务 · 20 分钟', d.task, specHtml(d.main, track)) + sec('③ 应用 · 5 分钟', d.appText, specHtml(d.app, track)) + '</div>';
+    return pday(track, d.main.ref ? '' : d.main.chars.concat(d.warm.chars).join(''), sheetHead((track === 'zh' ? '中文' : 'English') + ' · 第 ' + d.n + ' 天 · ' + d.wk.t, '第 ' + (w + 1) + ' 周第 ' + (i + 1) + ' 天。三段共 30 分钟，写完在右边记下日期和用时。') +
+      sec('① 热身 · 5 分钟', d.wk.warm, specHtml(d.warm, track, true)) + sec('② 当天任务 · 20 分钟', d.task, specHtml(d.main, track)) + sec('③ 应用 · 5 分钟', d.appText, specHtml(d.app, track)));
   }
   renderPlan();
+
+  var gm = $('#grip-marks');
+  if (gm) gm.innerHTML = [[130, 330, 260, 424], [330, 600, 310, 486], [110, 560, 220, 480], [470, 90, 380, 170], [640, 190, 550, 290], [860, 300, 780, 420]].map(function (p, i) {
+    return '<path d="M' + p[0] + ' ' + p[1] + 'L' + p[2] + ' ' + p[3] + '" stroke="#b8322a" stroke-width="3"/><circle cx="' + p[2] + '" cy="' + p[3] + '" r="5" fill="#b8322a"/><circle cx="' + p[0] + '" cy="' + p[1] + '" r="26" fill="#b8322a" stroke="#fff" stroke-width="3"/><text x="' + p[0] + '" y="' + (p[1] + 12) + '" fill="#fff">' + (i + 1) + '</text>';
+  }).join('');
 
   /* ---------- 顶部栏目切换 ---------- */
   var PAGES = { home: ['principles', 'prep'], path: ['path'], structure: ['structure'], tips: ['tips'], plan: ['plan'], tools: ['tools'], sources: ['sources'] };

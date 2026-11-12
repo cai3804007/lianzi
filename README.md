@@ -20,3 +20,9 @@ python3 -m http.server 8765
 ```
 
 笔顺数据（[Hanzi Writer](https://hanziwriter.org/)）和英文手写字体从 CDN 加载，需要联网。
+
+## 图片来源
+
+- `img/grip.jpg`：[Hånd som skriver](https://commons.wikimedia.org/wiki/File:H%C3%A5nd_som_skriver._-_Fo30141603290075.jpg)，1954 年，作者不详，挪威国家档案馆（Riksarkivet），[CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0)。经裁剪，页面上另加编号标注；修改后的图片同样以 CC BY-SA 4.0 提供。
+- `img/grip-low.jpg`：[Tookapic](https://commons.wikimedia.org/wiki/File:Pen-writing-notes-studying.jpg)，CC0，经裁剪。
+- 坐姿示意图为本站自绘。
