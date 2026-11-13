@@ -19,7 +19,13 @@
 python3 -m http.server 8765
 ```
 
-笔顺数据（[Hanzi Writer](https://hanziwriter.org/)）和英文手写字体从 CDN 加载，需要联网。
+笔顺库、英文手写字体和网站用到的 342 个汉字的笔顺数据都放在仓库里，不依赖外部 CDN。只有在“笔顺演示”里输入这 342 个字以外的字时，才会联网去取那个字的数据。
+
+## 第三方资源
+
+- `vendor/hanzi-writer.min.js`：[Hanzi Writer](https://hanziwriter.org/) 3.5.0，MIT 许可。
+- `hzdata/`：[hanzi-writer-data](https://github.com/chanind/hanzi-writer-data) 2.0，源自 [Make Me a Hanzi](https://github.com/skishore/makemeahanzi)，字形数据为 Arphic Public License。
+- `fonts/edu-sa-beginner.woff2`（Edu SA Beginner）、`fonts/playwrite-us-trad.woff2`（Playwrite US Trad）：均为 SIL Open Font License 1.1。
 
 ## 图片来源
 

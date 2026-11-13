@@ -215,9 +215,9 @@
     });
     progress();
   }
-  render('zh'); render('en'); show('zh');
-  $('#tab-zh').onclick = function () { show('zh'); };
-  $('#tab-en').onclick = function () { show('en'); };
+  render('zh'); render('en'); show(state.track === 'en' ? 'en' : 'zh');
+  $('#tab-zh').onclick = function () { state.track = 'zh'; save(); show('zh'); };
+  $('#tab-en').onclick = function () { state.track = 'en'; save(); show('en'); };
   document.addEventListener('change', function (e) {
     var id = e.target.dataset && e.target.dataset.stage;
     if (!id) return;
@@ -255,6 +255,14 @@
       return '<div class="tip"><h4>' + t[0] + '</h4><p>' + t[1] + '</p>' + chips(t[2]) + '</div>';
     }).join('') + '</div></div>';
   }).join('');
+
+  /* 笔顺数据：网站用到的字存在本地 hzdata/，其余的字才去 CDN 取 */
+  function hzLoader(ch, onLoad, onError) {
+    var get = function (url) { return fetch(url).then(function (r) { if (!r.ok) throw 0; return r.json(); }); };
+    get('hzdata/' + ch.codePointAt(0).toString(16) + '.json')
+      .catch(function () { return get('https://cdn.jsdelivr.net/npm/hanzi-writer-data@2.0/' + encodeURIComponent(ch) + '.json'); })
+      .then(onLoad, onError);
+  }
 
   /* 大字示例：按部件分色，画出各部件的范围框并标注占比 */
   var PCOL = ['#b8322a', '#26221d', '#1f6f86'];
@@ -300,12 +308,12 @@
   }
   if (typeof HanziWriter !== 'undefined') {
     document.querySelectorAll('.big').forEach(function (btn) {
-      HanziWriter.loadCharacterData(btn.dataset.hz).then(function (d) { drawBig(btn, d); }).catch(function () { /* 保留文字回退 */ });
+      HanziWriter.loadCharacterData(btn.dataset.hz, { charDataLoader: hzLoader }).then(function (d) { drawBig(btn, d); }).catch(function () { /* 保留文字回退 */ });
     });
   }
 
   /* ---------- 每日任务表 ---------- */
-  var pTrack = 'zh', pWeek = { zh: 0, en: 0 };
+  var pTrack = state.ptrack === 'en' ? 'en' : 'zh', pWeek = { zh: 0, en: 0 };
   ['zh', 'en'].forEach(function (t) { // 默认打开第一个没做完的周
     for (var w = 0; w < LZ.plan[t].length; w++) {
       var all = true; for (var d = 0; d < 7; d++) if (!state['p-' + t + '-' + w + '-' + d]) all = false;
@@ -335,7 +343,8 @@
       step('② 任务', '20 分钟', '<ul>' + d.task.split('；').map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul>' + ex) +
       step('③ 应用', '5 分钟', esc(d.appText)) +
       step('今天打印', '', printList(d, track) + (d.main.none ? '' : '<button type="button" class="btn primary sm" data-print-day="' + w + '-' + i + '">打印今天的练习纸 / 存为 PDF</button>'), 'pr') +
-      '</dl></div>';
+      '</dl><div class="daynav"><button type="button" class="btn sm" data-go="-1"' + (d.n === 1 ? ' disabled' : '') + '>← 上一天</button>' +
+      '<button type="button" class="btn sm" data-go="1"' + (d.n === LZ.plan[track].length * 7 ? ' disabled' : '') + '>下一天 →</button></div></div>';
   }
   function renderPlan() {
     var weeks = LZ.plan[pTrack], w = pWeek[pTrack], wk = weeks[w], di = curDay();
@@ -343,6 +352,8 @@
     $('#weeks').innerHTML = weeks.map(function (x, i) {
       return '<button type="button" data-week="' + i + '" aria-pressed="' + (i === w) + '" class="' + (weekDone(pTrack, i) === 7 ? 'full' : '') + '">第 ' + (i + 1) + ' 周</button>';
     }).join('');
+    var total = weeks.length * 7, fin = 0; weeks.forEach(function (_, i) { fin += weekDone(pTrack, i); });
+    $('#plan-fill').style.width = (fin / total * 100) + '%'; $('#plan-text').textContent = '已完成 ' + fin + ' / ' + total + ' 天';
     $('#week-body').innerHTML = '<div class="week"><h3>第 ' + (w + 1) + ' 周 · ' + wk.t + '<button type="button" class="btn sm" data-print-week="' + w + '">打印本周 7 天练习纸</button></h3>' +
       '<div class="weeks daytabs">' + wk.days.map(function (_, i) {
         return '<button type="button" data-dayi="' + i + '" aria-pressed="' + (i === di) + '" class="' + (state['p-' + pTrack + '-' + w + '-' + i] ? 'full' : '') + '">第 ' + (w * 7 + i + 1) + ' 天' + (state['p-' + pTrack + '-' + w + '-' + i] ? ' ✓' : '') + '</button>';
@@ -355,8 +366,8 @@
         }).join('');
       }).join('') + '</tbody></table></div>';
   }
-  $('#ptab-zh').onclick = function () { pTrack = 'zh'; renderPlan(); };
-  $('#ptab-en').onclick = function () { pTrack = 'en'; renderPlan(); };
+  $('#ptab-zh').onclick = function () { pTrack = state.ptrack = 'zh'; save(); renderPlan(); };
+  $('#ptab-en').onclick = function () { pTrack = state.ptrack = 'en'; save(); renderPlan(); };
   $('#weeks').addEventListener('click', function (e) {
     var b = e.target.closest('[data-week]'); if (!b) return;
     pWeek[pTrack] = +b.dataset.week; renderPlan();
@@ -364,6 +375,12 @@
   $('#week-body').addEventListener('click', function (e) {
     var b = e.target.closest('[data-dayi]');
     if (b) { pDay[pTrack + pWeek[pTrack]] = +b.dataset.dayi; return renderPlan(); }
+    b = e.target.closest('[data-go]');
+    if (b) {
+      var n = pWeek[pTrack] * 7 + curDay() + (+b.dataset.go);
+      pWeek[pTrack] = Math.floor(n / 7); pDay[pTrack + pWeek[pTrack]] = n % 7; renderPlan();
+      return $('#week-body').scrollIntoView();
+    }
     b = e.target.closest('[data-print-day]');
     if (b) { var p = b.dataset.printDay.split('-'); return printArea(daySheet(pTrack, +p[0], +p[1])); }
     b = e.target.closest('[data-print-week]');
@@ -382,6 +399,7 @@
     msg.textContent = '正在演示笔顺…';
     if (!writer) {
       writer = HanziWriter.create('hz-svg', ch, {
+        charDataLoader: hzLoader,
         width: 280, height: 280, padding: 18, strokeColor: '#26221d', outlineColor: '#e4ddd0', drawingColor: '#b8322a',
         highlightColor: '#b8322a', strokeAnimationSpeed: 1, delayBetweenStrokes: 250, drawingWidth: 14,
         onLoadCharDataError: function () { msg.textContent = '没有找到这个字的笔顺数据。'; }
@@ -403,6 +421,7 @@
   }
   $('#hz-play').onclick = play;
   $('#hz-close').onclick = function () { dlg.close(); };
+  dlg.addEventListener('click', function (e) { if (e.target === dlg) dlg.close(); });
   $('#hz-quiz').onclick = function () {
     if (!writer) return;
     runId++;

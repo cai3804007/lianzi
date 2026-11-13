@@ -5,10 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>从零练字 · 中文与英文手写分步教程</title>
 <meta name="description" content="从零开始，一步步把中文和英文写漂亮：控笔、笔画、偏旁、结构、临帖、篇章，附笔顺演示与可打印字帖。">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Edu+SA+Beginner:wght@400..700&family=Playwrite+US+Trad:wght@100..400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=5">
+<link rel="stylesheet" href="style.css?v=7">
 </head>
 <body>
 
@@ -27,7 +24,7 @@
 </header>
 
 <nav id="topnav" aria-label="栏目"><div class="wrap">
-  <a href="#home">入门</a><a href="#path">分步路线</a><a href="#plan">每日任务</a><a href="#structure">结构详解</a><a href="#tips">书写口诀</a><a href="#tools">练习工具</a><a href="#sources">参考资料</a>
+  <a href="#home" class="brand" aria-label="从零练字 首页">练字</a><a href="#home">入门</a><a href="#path">分步路线</a><a href="#plan">每日任务</a><a href="#structure">结构详解</a><a href="#tips">书写口诀</a><a href="#tools">练习工具</a><a href="#sources">参考资料</a>
 </div></nav>
 
 <main class="wrap">
@@ -192,6 +189,7 @@
     <button role="tab" id="ptab-zh" aria-selected="true">中文 · 12 周</button>
     <button role="tab" id="ptab-en" aria-selected="false">English · 6 周</button>
   </div>
+  <div class="progress"><div class="bar"><i id="plan-fill"></i></div><span id="plan-text"></span></div>
   <div id="weeks" class="weeks"></div>
   <div id="week-body"></div>
   <details id="plan-all" class="fold"></details>
@@ -291,8 +289,8 @@ The quick brown fox jumps over the lazy dog.</textarea>
   </div>
 </dialog>
 
-<script src="https://cdn.jsdelivr.net/npm/hanzi-writer@3.5/dist/hanzi-writer.min.js"></script>
-<script src="data.js?v=5"></script>
-<script src="app.js?v=5"></script>
+<script src="vendor/hanzi-writer.min.js"></script>
+<script src="data.js?v=7"></script>
+<script src="app.js?v=7"></script>
 </body>
 </html>

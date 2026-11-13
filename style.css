@@ -1,3 +1,5 @@
+@font-face { font-family: "Edu SA Beginner"; font-weight: 400 700; font-display: swap; src: url(fonts/edu-sa-beginner.woff2) format("woff2"); }
+@font-face { font-family: "Playwrite US Trad"; font-weight: 100 400; font-display: swap; src: url(fonts/playwrite-us-trad.woff2) format("woff2"); }
 :root {
   --paper: #f6f1e7;
   --card: #fffdf8;
@@ -284,3 +286,19 @@ main > section { padding-top: 28px; min-height: 60vh; }
 .fig li { margin: 2px 0; }
 .fig figcaption { font-size: 12px; color: var(--muted); margin-top: 8px; }
 .fig.bad h3 { color: var(--red); }
+
+/* ---------- 交互细节 ---------- */
+section, #week-body { scroll-margin-top: 60px; }
+#topnav .wrap { align-items: center; }
+#topnav .brand { display: none; font: 15px var(--kai); color: #fff; background: var(--red); padding: 3px 8px; border-radius: 3px; margin-right: 8px; border: 0; }
+body.inner #topnav .brand { display: block; }
+#topnav a:not(.brand):hover { color: var(--ink); }
+.weeks button:hover:not([aria-pressed="true"]) { border-color: var(--red); color: var(--red); }
+.daynav { display: flex; justify-content: space-between; gap: 12px; margin-top: 16px; }
+.btn[disabled] { opacity: .35; cursor: default; pointer-events: none; }
+dialog { max-width: calc(100vw - 32px); }
+@media (max-width: 640px) {
+  .hero { padding: 36px 0 28px; }
+  #topnav .wrap { -webkit-mask-image: linear-gradient(90deg, #000 88%, transparent); mask-image: linear-gradient(90deg, #000 88%, transparent); }
+  #topnav a { padding: 12px 10px; }
+}
