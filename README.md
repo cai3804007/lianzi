@@ -21,6 +21,16 @@ python3 -m http.server 8765
 
 笔顺库、英文手写字体和网站用到的 342 个汉字的笔顺数据都放在仓库里，不依赖外部 CDN。只有在“笔顺演示”里输入这 342 个字以外的字时，才会联网去取那个字的数据。
 
+## 维护
+
+用 AI 助手维护时，让它先读 [AGENTS.md](AGENTS.md)，里面是项目规则、数据格式和常见任务的做法。改完后运行自检：
+
+```bash
+node tools/check.js
+```
+
+新增了例字时用 `node tools/check.js --fetch`，会自动下载缺少的笔顺数据。
+
 ## 第三方资源
 
 - `vendor/hanzi-writer.min.js`：[Hanzi Writer](https://hanziwriter.org/) 3.5.0，MIT 许可。
